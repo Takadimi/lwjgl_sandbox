@@ -1,10 +1,12 @@
 package game;
 
+import entities.Ball;
 import entities.ComputerPaddle;
 import entities.PlayerPaddle;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import static org.lwjgl.opengl.GL11.*;
@@ -18,10 +20,11 @@ public class Game {
 
     private int playerX = 20;
     private int playerY = 300;
-    private int computerX = WIDTH - 20;
+    private int computerX = WIDTH - 40;
     private int computerY = 300;
     private PlayerPaddle playerPaddle = new PlayerPaddle(playerX, playerY);
     private ComputerPaddle computerPaddle = new ComputerPaddle(computerX, computerY);
+    private Ball ball = new Ball(400, 300);
     private int fps = 0;
     private long lastFPS;
     private long lastFrame;
@@ -78,6 +81,15 @@ public class Game {
         }
 
         playerPaddle.update(delta);
+        computerPaddle.update(delta);
+        ball.update(delta);
+
+        if (playerPaddle.contains(ball)) {
+            ball.setMovingLeft(false);
+        } else if (computerPaddle.contains(ball)) {
+            ball.setMovingLeft(true);
+        }
+
         updateFPS();
 
     }
@@ -86,6 +98,8 @@ public class Game {
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         playerPaddle.draw();
+        computerPaddle.draw();
+        ball.draw();
 
     }
 

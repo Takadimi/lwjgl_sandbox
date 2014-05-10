@@ -48,6 +48,16 @@ public class PlayerPaddle extends Paddle {
 
     }
 
+    public boolean contains(Ball ball) {
+
+        if (ball.getX() <= this.x + width && (ball.getY() >= this.y - ball.getHeight() && ball.getY() <= this.y + height)) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     public float getWidth() {
         return width;
     }
